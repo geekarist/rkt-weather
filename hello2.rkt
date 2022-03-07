@@ -1,9 +1,10 @@
 #lang racket/gui
 
-(define frame (new frame%
-                   [label "Example"]
-                   [width 300]
-                   [height 300]))
+(define frame
+  (new frame%
+       [label "Example"]
+       [width 300]
+       [height 300]))
 
 (new canvas%
      [parent frame]
@@ -14,3 +15,4 @@
         (send dc draw-text "Don't panic!" 0 0))])
 
 (send frame show #t)
+
