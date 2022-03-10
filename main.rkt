@@ -10,37 +10,53 @@
 (define small-font (font "Arial" 8 #:weight 'medium))
 (define small-font-bold (font "Arial" 8 #:weight 'bold))
 
+(define state
+  (hash 'city "Berrias-et-Casteljau"
+        'region "Auvergne-Rhône-Alpes"
+        'icon "☽"
+        'text-desc "Clear"
+        'update-time "Updated as of 12:34"
+        'temp-real "16°"
+        'temp-felt "Feels like 9°"
+        'wind "Wind ↑ 1 mph"
+        'visibility "Visibility 12.4 mi"
+        'pressure "Barometer 1016.00 mb"
+        'humidity "Humidity 77%"
+        'dew-point "Dew Point 5°"))
+
 (render
  (window
   (spacer)
-  (vpanel #:margin '(16 16)
-   (text "Berrias-et-Casteljau" #:font large-font)
-   (text "Auvergne-Rhône-Alpes" #:font normal-font)
-   (hpanel #:margin '(0 0)
+  (vpanel
+   #:margin '(16 16)
+   (text (hash-ref state 'city) #:font large-font)
+   (text (hash-ref state 'region) #:font normal-font)
+   (hpanel
+    #:margin '(0 0) 
     (spacer)
-    (text "☽" #:font huge-font)
-    (text "16°" #:font huge-font)
+    (text (hash-ref state 'icon) #:font huge-font)
+    (text (hash-ref state 'temp-real) #:font huge-font)
     (choice '("C" "F")
             (λ (arg)
               (writeln (string-append "Choice: " arg)))) 
     (spacer))
-   (text "Clear" #:font normal-font)
-   (text "Updated as of 12:34" #:font small-font-bold)
+   (text (hash-ref state 'text-desc) #:font normal-font)
+   (text (hash-ref state 'update-time) #:font small-font-bold)
    (hpanel
     (spacer)
-    (text "Feels like 9°" #:font small-font)
+    (text (hash-ref state 'temp-felt) #:font small-font)
     (text " · " #:font small-font)
-    (text "Wind ↑ 1 mph" #:font small-font)
+    (text (hash-ref state 'wind) #:font small-font)
     (text " · " #:font small-font)
-    (text "Visibility 12.4 mi" #:font small-font)
+    (text (hash-ref state 'visibility) #:font small-font)
     (spacer))
    (hpanel
     (spacer)
-    (text "Barometer 1016.00 mb" #:font small-font)
+    (text (hash-ref state 'pressure) #:font small-font)
     (text " · " #:font small-font)
-    (text "Humidity 77%" #:font small-font)
+    (text (hash-ref state 'humidity) #:font small-font)
     (text " · " #:font small-font)
-    (text "Dew Point 5°" #:font small-font)
+    (text (hash-ref state 'dew-point) #:font small-font)
     (spacer)))
   (spacer)))
   
