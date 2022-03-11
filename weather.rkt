@@ -24,7 +24,7 @@
         'humidity "Humidity 77%"
         'dew-point "Dew Point 5°"))
 
-(define (weather-view state)
+(define (weather-view state dispatch)
   (window
    (spacer)
    [vpanel
@@ -38,7 +38,7 @@
      (text (hash-ref state 'temp-real) #:font huge-font)
      (choice '("C" "F")
              (λ (arg)
-               (writeln (string-append "Choice: " arg)))) 
+               (dispatch (hash 'choose-temp-unit arg)) )) 
      (spacer))
     (text (hash-ref state 'text-desc) #:font normal-font)
     (text (hash-ref state 'update-time) #:font small-font-bold)
@@ -60,5 +60,6 @@
      (spacer))]
    (spacer)))
 
-(define (weather-update state message dispatch)
-  (writeln 'TODO))
+(define (weather-update state message)
+  "Yo"
+  )
