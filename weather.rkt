@@ -25,41 +25,40 @@
         'dew-point "Dew Point 5°"))
 
 (define (weather-view state)
-  (render
-   (window
-    (spacer)
-    [vpanel
-     #:margin '(16 16)
-     (text (hash-ref state 'city) #:font large-font)
-     (text (hash-ref state 'region) #:font normal-font)
-     (hpanel
-      #:margin '(0 0) 
-      (spacer)
-      (text (hash-ref state 'icon) #:font huge-font)
-      (text (hash-ref state 'temp-real) #:font huge-font)
-      (choice '("C" "F")
-              (λ (arg)
-                (writeln (string-append "Choice: " arg)))) 
-      (spacer))
-     (text (hash-ref state 'text-desc) #:font normal-font)
-     (text (hash-ref state 'update-time) #:font small-font-bold)
-     (hpanel
-      (spacer)
-      (text (hash-ref state 'temp-felt) #:font small-font)
-      (text " · " #:font small-font)
-      (text (hash-ref state 'wind) #:font small-font)
-      (text " · " #:font small-font)
-      (text (hash-ref state 'visibility) #:font small-font)
-      (spacer))
-     (hpanel
-      (spacer)
-      (text (hash-ref state 'pressure) #:font small-font)
-      (text " · " #:font small-font)
-      (text (hash-ref state 'humidity) #:font small-font)
-      (text " · " #:font small-font)
-      (text (hash-ref state 'dew-point) #:font small-font)
-      (spacer))]
-    (spacer))))
+  (window
+   (spacer)
+   [vpanel
+    #:margin '(16 16)
+    (text (hash-ref state 'city) #:font large-font)
+    (text (hash-ref state 'region) #:font normal-font)
+    (hpanel
+     #:margin '(0 0) 
+     (spacer)
+     (text (hash-ref state 'icon) #:font huge-font)
+     (text (hash-ref state 'temp-real) #:font huge-font)
+     (choice '("C" "F")
+             (λ (arg)
+               (writeln (string-append "Choice: " arg)))) 
+     (spacer))
+    (text (hash-ref state 'text-desc) #:font normal-font)
+    (text (hash-ref state 'update-time) #:font small-font-bold)
+    (hpanel
+     (spacer)
+     (text (hash-ref state 'temp-felt) #:font small-font)
+     (text " · " #:font small-font)
+     (text (hash-ref state 'wind) #:font small-font)
+     (text " · " #:font small-font)
+     (text (hash-ref state 'visibility) #:font small-font)
+     (spacer))
+    (hpanel
+     (spacer)
+     (text (hash-ref state 'pressure) #:font small-font)
+     (text " · " #:font small-font)
+     (text (hash-ref state 'humidity) #:font small-font)
+     (text " · " #:font small-font)
+     (text (hash-ref state 'dew-point) #:font small-font)
+     (spacer))]
+   (spacer)))
 
 (define (weather-update state message dispatch)
   (writeln 'TODO))

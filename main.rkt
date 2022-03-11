@@ -3,6 +3,9 @@
 ;See https://youtu.be/AXJ9tTVGDwU
 
 (require "weather.rkt")
+(require racket/gui/easy)
 
-(weather-view weather-init)  
+(render
+ (weather-view weather-init))
+  
 
