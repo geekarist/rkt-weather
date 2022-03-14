@@ -24,13 +24,18 @@
         'humidity "Humidity 77%"
         'dew-point "Dew Point 5°"))
 
+(define (on-change-search-query _event query)
+  (printf "TODO: search city: ~a~n" query))
+
+(define (on-change-temp-unit arg)
+  (printf "TODO: change temperature unit to: ~a~n" arg))
+
 (render
  (window
   (spacer)
   [vpanel
    #:margin '(16 16)
-   (input ""
-          (λ (_event text) (printf "TODO: search city: ~a~n" text)))
+   (input "" on-change-search-query)
    (spacer)
    (text (hash-ref state 'city) #:font large-font)
    (text (hash-ref state 'region) #:font normal-font)
@@ -39,9 +44,7 @@
     (spacer)
     (text (hash-ref state 'icon) #:font huge-font)
     (text (hash-ref state 'temp-real) #:font huge-font)
-    (choice '("C" "F")
-            (λ (arg)
-              (printf "TODO: change temperature unit to: ~a~n" arg) )) 
+    (choice '("C" "F") on-change-temp-unit) 
     (spacer))
    (text (hash-ref state 'text-desc) #:font normal-font)
    (text (hash-ref state 'update-time) #:font small-font-bold)
@@ -62,3 +65,5 @@
     (text (hash-ref state 'dew-point) #:font small-font)
     (spacer))]
   (spacer)))
+
+
