@@ -29,6 +29,9 @@
   (spacer)
   [vpanel
    #:margin '(16 16)
+   (input ""
+          (λ (_event text) (printf "TODO: search city: ~a~n" text)))
+   (spacer)
    (text (hash-ref state 'city) #:font large-font)
    (text (hash-ref state 'region) #:font normal-font)
    (hpanel
@@ -38,7 +41,7 @@
     (text (hash-ref state 'temp-real) #:font huge-font)
     (choice '("C" "F")
             (λ (arg)
-              (writeln (hash 'choose-temp-unit arg)) )) 
+              (printf "TODO: change temperature unit to: ~a~n" arg) )) 
     (spacer))
    (text (hash-ref state 'text-desc) #:font normal-font)
    (text (hash-ref state 'update-time) #:font small-font-bold)
