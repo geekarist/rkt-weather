@@ -4,29 +4,43 @@
 
 (require racket/gui/easy)
 (require racket/gui/easy/operator)
-(require "weather.rkt")
 
-(define @state (@ weather-init))
+(define weather-init
+  (hash 'weather "Please search a city and click 'Search'"
+        'query ""))
 
-(define current-state-hash (obs-peek @state))
+(define (weather-view state-hash dispatch)
+  (window
+   (vpanel
+    (input ""
+           (λ (event query)
+             (dispatch (vector-immutable 'change-query query))))
+    (button
+     "Search"
+     (λ ()
+       (dispatch (vector-immutable 'execute-search null))))
+    (text (hash-ref state-hash 'weather)))))
 
-(define (handle-effect effect-vec dispatch)
-  (when (vector? effect-vec)
-    (define effect-key (vector-ref effect-vec 0))
-    (define effect-val (vector-ref effect-vec 1))
-    (cond [(equal? effect-key 'fx-log)
-           (printf "~a~n" effect-val)])))
+(define (weather-update state-hash msg)
+  "TODO")
 
-(define (dispatch message-vec)
-  (define update-result-vec 
-    (weather-update current-state-hash message-vec))
-  (define new-state-hash (vector-ref update-result-vec 0))
-  (define new-effect-vec (vector-ref update-result-vec 1))
-  (handle-effect new-effect-vec dispatch)
-  (:= @state new-state-hash))
+(define global-state-hash
+  (hash 'weather
+        (@ (hash-ref weather-init 'weather))
+        'query
+        (@ (hash-ref weather-init 'query))))
 
-(render 
+(render
  (weather-view
-  current-state-hash
-  dispatch))
+  global-state-hash
+  (λ (msg-vec)
+    (define msg-key (vector-ref msg-vec 0))
+    (define msg-val (vector-ref msg-vec 1))
+    (cond
+      [(equal? msg-key 'change-query)
+       (obs-update!
+        (hash-ref global-state-hash 'query)
+        (λ (weather-val) msg-val))]
+      [(equal? msg-key 'execute-search)
+       (printf "Execute search: ~a~n" msg-val)]))))
 
