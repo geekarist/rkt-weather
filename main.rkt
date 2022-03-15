@@ -11,41 +11,31 @@
 (define small-font (font "Arial" 8 #:weight 'medium))
 (define small-font-bold (font "Arial" 8 #:weight 'bold))
 
-(define @state (@ (hash 'query null
-                        'city "Berrias-et-Casteljau"
-                        'region "Auvergne-Rhône-Alpes"
-                        'icon "☽"
-                        'text-desc "Clear"
-                        'update-time "Updated as of 12:34"
-                        'temp-real "16°"
-                        'temp-felt "Feels like 9°"
-                        'wind "Wind ↑ 1 mph"
-                        'visibility "Visibility 12.4 mi"
-                        'pressure "Barometer 1016.00 mb"
-                        'humidity "Humidity 77%"
-                        'dew-point "Dew Point 5°")))
+(define weather-init
+  (hash 'query null
+        'city "Berrias-et-Casteljau"
+        'region "Auvergne-Rhône-Alpes"
+        'icon "☽"
+        'text-desc "Clear"
+        'update-time "Updated as of 12:34"
+        'temp-real "16°"
+        'temp-felt "Feels like 9°"
+        'wind "Wind ↑ 1 mph"
+        'visibility "Visibility 12.4 mi"
+        'pressure "Barometer 1016.00 mb"
+        'humidity "Humidity 77%"
+        'dew-point "Dew Point 5°"))
 
-(define (on-change-search-query _event query)
-  (define current-state (obs-peek @state))
-  (define new-state
-    (hash-set current-state
-              'query query))
-  (:= @state new-state))
-
-(define (on-change-temp-unit arg)
-  (printf "TODO: change temperature unit to: ~a~n" arg))
-
-(define (on-submit-search)
-  (printf "TODO: execute search~n"))
-
-(define (weather-view state)
+(define (weather-view state dispatch)
   (window
    (spacer)
-   [vpanel
+   (vpanel
     #:margin '(16 16)
     (hpanel
-     (input "" on-change-search-query)
-     (button "Search" on-submit-search))
+     (input "" (λ (_event value)
+                 (dispatch (vector-immutable 'change-query value))))
+     (button "Search" (λ ()
+                        (dispatch (vector-immutable 'submit-search)))))
     (spacer)
     (text (hash-ref state 'city) #:font large-font)
     (text (hash-ref state 'region) #:font normal-font)
@@ -73,9 +63,31 @@
      (text (hash-ref state 'humidity) #:font small-font)
      (text " · " #:font small-font)
      (text (hash-ref state 'dew-point) #:font small-font)
-     (spacer))]
+     (spacer)))
    (spacer)))
 
-(render
- (weather-view (obs-peek @state)))
+(define (weather-update state-hash message-vec)
+  (define msg-key (vector-ref message-vec 0))
+  (when (equal?  msg-key 'change-query)
+    (define msg-val (vector-ref message-vec 1))
+    (hash-set current-state-hash
+              'query msg-val)))
+
+(define @state (@ weather-init))
+
+(define (on-change-temp-unit arg)
+  (printf "TODO: change temperature unit to: ~a~n" arg))
+
+(define (on-submit-search)
+  (printf "TODO: execute search~n"))
+
+(define current-state-hash (obs-peek @state))
+
+(render 
+ (weather-view
+  current-state-hash
+  (λ (message-vec)
+    (define new-state-hash 
+      (weather-update current-state-hash message-vec))
+    (:= @state new-state-hash))))
 
