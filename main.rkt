@@ -6,8 +6,10 @@
 (require racket/gui/easy/operator)
 
 (define weather-init
-  (hash 'weather "Please search a city and click 'Search'"
-        'query ""))
+  (hash
+   'query ""
+   'result "Please type a search string and click 'Search'"
+   ))
 
 (define (weather-view @state dispatch)
   (window
@@ -23,7 +25,7 @@
      (@state
       . ~> .
       (λ (state-hash)
-        (hash-ref state-hash 'query)))))))
+        (hash-ref state-hash 'result)))))))
 
 (define (weather-update state-hash msg)
   "TODO")
@@ -37,6 +39,7 @@
   (λ (msg-vec)
     (define msg-key (vector-ref msg-vec 0))
     (define msg-val (vector-ref msg-vec 1))
+    (define current-state-hash (obs-peek @state-global))
     (cond
       [(equal? msg-key 'change-query)
        (obs-update!
@@ -47,5 +50,9 @@
             (hash-set current-state-hash 'query new-query))
           new-state-hash))]
       [(equal? msg-key 'execute-search)
-       (printf "Execute search: ~a~n" msg-val)]))))
+       (define query (hash-ref current-state-hash 'query))
+       (define new-result (format "TODO: search result for ~a" query))
+       (obs-update! @state-global
+                    (λ (current-state-hash)
+                      (hash-set current-state-hash 'result new-result)))]))))
 
