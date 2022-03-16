@@ -9,7 +9,7 @@
   (hash 'weather "Please search a city and click 'Search'"
         'query ""))
 
-(define (weather-view state-hash dispatch)
+(define (weather-view @state dispatch)
   (window
    (vpanel
     (input ""
@@ -19,28 +19,33 @@
      "Search"
      (λ ()
        (dispatch (vector-immutable 'execute-search null))))
-    (text (hash-ref state-hash 'weather)))))
+    (text
+     (@state
+      . ~> .
+      (λ (state-hash)
+        (hash-ref state-hash 'query)))))))
 
 (define (weather-update state-hash msg)
   "TODO")
 
-(define global-state-hash
-  (hash 'weather
-        (@ (hash-ref weather-init 'weather))
-        'query
-        (@ (hash-ref weather-init 'query))))
+(define @state-global
+  (@ weather-init))
 
 (render
  (weather-view
-  global-state-hash
+  @state-global
   (λ (msg-vec)
     (define msg-key (vector-ref msg-vec 0))
     (define msg-val (vector-ref msg-vec 1))
     (cond
       [(equal? msg-key 'change-query)
        (obs-update!
-        (hash-ref global-state-hash 'query)
-        (λ (weather-val) msg-val))]
+        @state-global
+        (λ (current-state-hash)
+          (define new-query msg-val)
+          (define new-state-hash
+            (hash-set current-state-hash 'query new-query))
+          new-state-hash))]
       [(equal? msg-key 'execute-search)
        (printf "Execute search: ~a~n" msg-val)]))))
 
