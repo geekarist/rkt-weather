@@ -11,6 +11,11 @@
    'result "Please type a search string and click 'Search'"
    ))
 
+(define (obs-hash-ref @state key)
+  (obs-map @state
+           (λ (state-hash)
+             (hash-ref state-hash key))))
+
 (define (weather-view @state dispatch)
   (window
    (vpanel
@@ -21,10 +26,7 @@
      "Search"
      (λ ()
        (dispatch (vector-immutable 'execute-search null))))
-    (text
-     (obs-map @state
-              (λ (state-hash)
-                (hash-ref state-hash 'result)))))))
+    (text (obs-hash-ref @state 'result)))))
 
 (define (weather-update current-state-hash msg-vec)
   (define msg-key (vector-ref msg-vec 0))
