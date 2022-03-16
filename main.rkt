@@ -39,17 +39,18 @@
      (define new-result (format "TODO: search result for ~a" query))
      (hash-set current-state-hash 'result new-result)]))
 
-(define @state-global
-  (@ weather-init))
+(define (runtime init view update)
+  (define @state-global
+    (@ init))
+  (render
+   (view
+    @state-global
+    (λ (msg-vec)
+      (define current-state-hash (obs-peek @state-global))
+      (define new-state-hash
+        (update current-state-hash msg-vec))
+      (obs-update! @state-global
+                   (λ (_current-state-hash)
+                     new-state-hash))))))
 
-(render
- (weather-view
-  @state-global
-  (λ (msg-vec)
-    (define current-state-hash (obs-peek @state-global))
-    (define new-state-hash
-      (weather-update current-state-hash msg-vec))
-    (obs-update! @state-global
-                 (λ (_current-state-hash)
-                   new-state-hash)))))
-
+(runtime weather-init weather-view weather-update)
