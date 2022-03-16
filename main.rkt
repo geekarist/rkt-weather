@@ -22,10 +22,9 @@
      (λ ()
        (dispatch (vector-immutable 'execute-search null))))
     (text
-     (@state
-      . ~> .
-      (λ (state-hash)
-        (hash-ref state-hash 'result)))))))
+     (obs-map @state
+              (λ (state-hash)
+                (hash-ref state-hash 'result)))))))
 
 (define (weather-update current-state-hash msg-vec)
   (define msg-key (vector-ref msg-vec 0))
