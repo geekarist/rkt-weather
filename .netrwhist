@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =8
+let g:netrw_dirhist_8='/Users/cpele/LOCAL/httrack/bin'
+let g:netrw_dirhist_7='/Users/cpele/Workspaces/myapp2'
+let g:netrw_dirhist_6='/Users/cpele/Workspaces/myapp/src'
+let g:netrw_dirhist_5='/Users/cpele/Workspaces/myapp'
+let g:netrw_dirhist_4='/Users/cpele/Workspaces/myapp/src'
+let g:netrw_dirhist_3='/Users/cpele/Workspaces/myapp2'
+let g:netrw_dirhist_2='/Users/cpele/Workspaces/myapp'
+let g:netrw_dirhist_1='/Users/cpele/Workspaces/my-project/build'
