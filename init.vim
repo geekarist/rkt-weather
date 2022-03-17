@@ -1,5 +1,5 @@
-let guifont='Menlo_Regular:h16'
-
+" Plugins
+set noshellslash
 call plug#begin('~/.vim/autoload')
 Plug 'https://github.com/joshdick/onedark.vim'
 Plug 'https://github.com/wlangstroth/vim-racket'
@@ -9,8 +9,22 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'jiangmiao/auto-pairs'
 Plug 'guns/vim-sexp'
 Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'https://github.com/mattn/vim-findroot'
 call plug#end()
 
-:map <Leader>p :FZF<Return>
+" Vim options
+let guifont='Menlo_Regular:h16'
+set shellslash
+set tabstop=4
+set softtabstop
+set clipboard=unnamed
+
+" Mappings
+map <Leader>p :FZF<Return>
 
 colorscheme onedark
+
+" Plugin options
+"let g:AutoPairs={'(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"`", '```':'```', '"""':'"""', "'''":"'''"}
+let g:AutoPairs={'(':')', '[':']', '{':'}','"':'"', "`":"`", '```':'```', '"""':'"""', "'''":"'''"}
+
