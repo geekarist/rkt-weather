@@ -11,22 +11,22 @@
    'result "Please type a search string and click 'Search'"
    ))
 
-(define (obs-hash-ref @state key)
+(define (obs-map-hash-ref @state key)
   (obs-map @state
            (λ (state-hash)
              (hash-ref state-hash key))))
 
 (define (weather-view @state dispatch)
+  (define (on-change-query _event query)
+             (dispatch (vector-immutable 'change-query query)))
+  (define (on-execute-search)
+           (dispatch (vector-immutable 'execute-search null)))
+  (define (get-state-prop key) (obs-map-hash-ref @state key))
   (window
    (vpanel
-    (input ""
-           (λ (event query)
-             (dispatch (vector-immutable 'change-query query))))
-    (button
-     "Search"
-     (λ ()
-       (dispatch (vector-immutable 'execute-search null))))
-    (text (obs-hash-ref @state 'result)))))
+    (input "" on-change-query)
+    (button "Search" on-execute-search)
+    (text (get-state-prop 'result)))))
 
 (define (weather-update current-state-hash msg-vec)
   (define msg-key (vector-ref msg-vec 0))
