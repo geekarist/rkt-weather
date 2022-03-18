@@ -23,7 +23,7 @@
   (define new-result (format "TODO3: search result for ~a" query))
   (define new-state
     (hash-set current-state-hash 'result new-result))
-  (define new-effect (lambda (fx-key fx-val)
+  (define new-effect (λ (fx-key fx-val)
                        (printf "~a: ~a~n" fx-key fx-val)))
   new-state)
 
