@@ -15,9 +15,9 @@
   (define @state (@ init))
   (render
    (view
-    (λ (key)
+    (λ (key)            ; Get state function
       (obs-map-hash-ref @state key))
-    (λ (msg-vec)
+    (λ (msg-vec)        ; Dispatch function
       (define current-state-hash (obs-peek @state))
       (define new-state-hash
         (update current-state-hash msg-vec))
@@ -28,3 +28,4 @@
 (runtime (hash-ref weather-program 'init)
          (hash-ref weather-program 'view)
          (hash-ref weather-program 'update))
+

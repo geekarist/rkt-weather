@@ -4,10 +4,8 @@
 (require racket/gui/easy/operator)
 
 (define weather-init
-  (hash
-   'query ""
-   'result "Please type a search string and click 'Search'"
-   ))
+  (hash 'query ""
+	'result "Please type a search string and click 'Search'"))
 
 (define (weather-view get-state-prop dispatch)
   (define (on-change-query _event query)
@@ -26,11 +24,17 @@
   (cond
     [(equal? msg-key 'change-query)
      (define new-query msg-val)
-     (hash-set current-state-hash 'query new-query)]
+	 (define new-state 
+	   (hash-set current-state-hash 'query new-query))
+	 new-state]
     [(equal? msg-key 'execute-search)
      (define query (hash-ref current-state-hash 'query))
-     (define new-result (format "TODO: search result for ~a" query))
-     (hash-set current-state-hash 'result new-result)]))
+     (define new-result (format "TODO3: search result for ~a" query))
+	 (define new-state
+	   (hash-set current-state-hash 'result new-result))
+	 (define new-effect (lambda (fx-key fx-val)
+						  (printf "~a: ~a~n" fx-key fx-val)))
+	 new-state]))
 
 (define weather-program
   (hash 'init weather-init
