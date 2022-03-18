@@ -3,11 +3,11 @@
 (require racket/gui/easy)
 (require racket/gui/easy/operator)
 
-(define weather-init
+(define init
   (hash 'query ""
         'result "Please type a search string and click 'Search'"))
 
-(define (weather-view get-state-prop dispatch)
+(define (view get-state-prop dispatch)
   (define (on-change-query _event query)
     (dispatch (vector-immutable 'change-query query)))
   (define (on-execute-search)
@@ -33,7 +33,7 @@
     (hash-set current-state-hash 'query new-query))
   new-state)
 
-(define (weather-update current-state-hash msg-vec)
+(define (update current-state-hash msg-vec)
   (define msg-key (vector-ref msg-vec 0))
   (define msg-val (vector-ref msg-vec 1))
   (cond
@@ -43,8 +43,8 @@
      (update-on-execute-search current-state-hash msg-val)]))
 
 (define weather-program
-  (hash 'init weather-init
-        'view weather-view
-        'update weather-update))
+  (hash 'init init
+        'view view
+        'update update))
 
 (provide weather-program)
