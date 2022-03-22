@@ -20,12 +20,10 @@
 
 (define (update-on-execute-search current-state-hash msg-val)
   (define query (hash-ref current-state-hash 'query))
-  (define new-result (format "TODO: search result for ~a" query))
-  (define new-state
+  (define new-result (format "TBD: search result for ~a" query))
+  (define state-with-new-result
     (hash-set current-state-hash 'result new-result))
-  (define new-effect (λ (fx-key fx-val)
-                       (printf "~a: ~a~n" fx-key fx-val)))
-  new-state)
+  state-with-new-result)
 
 (define (update-on-change-query current-state-hash msg-val)
   (define new-query msg-val)
