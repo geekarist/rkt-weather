@@ -13,14 +13,13 @@
 
 (define (runtime init view update)
   (define @state (@ init))
+  (define (get-state key) (obs-map-hash-ref @state key))
+  (define (dispatch msg-vec)
+    (define current-state-hash (obs-peek @state))
+    (define new-state-hash
+      (update current-state-hash msg-vec))
+    (obs-update! @state
+                 (λ (_current-state-hash)
+                   new-state-hash)))
   (render
-   (view
-    (λ (key)            ; Get state function
-      (obs-map-hash-ref @state key))
-    (λ (msg-vec)        ; Dispatch function
-      (define current-state-hash (obs-peek @state))
-      (define new-state-hash
-        (update current-state-hash msg-vec))
-      (obs-update! @state
-                   (λ (_current-state-hash)
-                     new-state-hash))))))
+   (view get-state dispatch)))
