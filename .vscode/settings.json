@@ -1,0 +1,5 @@
+{
+    "activator.activateOnStart": [
+        "ailisp.strict-paredit"
+    ]
+}
