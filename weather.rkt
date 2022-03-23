@@ -5,7 +5,8 @@
 
 (define init
   (hash 'query ""
-        'result "Please type a search string and click 'Search'"))
+        'result "Please type a search string and click 'Search'"
+        'pending-effect null))
 
 (define (view get-state-prop dispatch)
   (define (on-change-query _event query)
@@ -20,9 +21,12 @@
 
 (define (update-on-execute-search current-state-hash msg-val)
   (define query (hash-ref current-state-hash 'query))
-  (define new-result (format "TBD: search result for ~a" query))
+  (define new-result (format "Searching for ~a, please wait..." query))
+  (define new-effect (vector-immutable 'fx-log query))
   (define state-with-new-result
-    (hash-set current-state-hash 'result new-result))
+    (hash-set* current-state-hash
+               'result new-result
+               'pending-effect new-effect))
   state-with-new-result)
 
 (define (update-on-change-query current-state-hash msg-val)
